@@ -143,3 +143,49 @@
 
 </body>
 </html>
+<!-- index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Kanban Board</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <h1 class="title">✨ Kanban Board</h1>
+
+  <div class="board">
+
+    <div class="column">
+      <h2>📝 Task</h2>
+      <div id="task" class="task-container" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+      <div class="add-task">
+        <input type="text" id="taskInput" placeholder="Add new task...">
+        <button onclick="addTask('task')">+</button>
+      </div>
+    </div>
+
+    <div class="column">
+      <h2>🚧 In Progress</h2>
+      <div id="inprogress" class="task-container" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+      <div class="add-task">
+        <input type="text" id="progressInput" placeholder="Add new task...">
+        <button onclick="addTask('inprogress')">+</button>
+      </div>
+    </div>
+
+    <div class="column">
+      <h2>✅ Done</h2>
+      <div id="done" class="task-container" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+      <div class="add-task">
+        <input type="text" id="doneInput" placeholder="Add new task...">
+        <button onclick="addTask('done')">+</button>
+      </div>
+    </div>
+
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
