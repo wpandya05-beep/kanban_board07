@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Kanban Board</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f6f8;
+      margin: 0;
+      padding: 20px;
+    }
+
+    h1 {
+      text-align: center;
+    }
+
+    .board {
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+      margin-top: 20px;
+    }
+
+    .column {
+      background: #fff;
+      padding: 15px;
+      border-radius: 10px;
+      width: 250px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+
+    .column h2 {
+      text-align: center;
+    }
+
+    .task {
+      background: #e3e7ff;
+      margin: 10px 0;
+      padding: 10px;
+      border-radius: 5px;
+      cursor: grab;
+    }
+
+    .add-task {
+      margin-top: 10px;
+      display: flex;
+      gap: 5px;
+    }
+
+    input {
+      flex: 1;
+      padding: 5px;
+    }
+
+    button {
+      padding: 5px 10px;
+      cursor: pointer;
+    }
+
+    .drag-over {
+      background: #d1ffd6;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Kanban Board</h1>
+
+  <div class="board">
+
+    <div class="column" ondrop="drop(event)" ondragover="allowDrop(event)">
+      <h2>Task</h2>
+      <div id="task"></div>
+      <div class="add-task">
+        <input type="text" id="taskInput" placeholder="New task">
+        <button onclick="addTask('task')">Add</button>
+      </div>
+    </div>
+
+    <div class="column" ondrop="drop(event)" ondragover="allowDrop(event)">
+      <h2>In Progress</h2>
+      <div id="inprogress"></div>
+      <div class="add-task">
+        <input type="text" id="progressInput" placeholder="New task">
+        <button onclick="addTask('inprogress')">Add</button>
+      </div>
+    </div>
+
+    <div class="column" ondrop="drop(event)" ondragover="allowDrop(event)">
+      <h2>Done</h2>
+      <div id="done"></div>
+      <div class="add-task">
+        <input type="text" id="doneInput" placeholder="New task">
+        <button onclick="addTask('done')">Add</button>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    function addTask(columnId) {
+      let inputId = columnId === 'task' ? 'taskInput' : columnId === 'inprogress' ? 'progressInput' : 'doneInput';
+      let input = document.getElementById(inputId);
+      let value = input.value.trim();
+
+      if (value === '') return;
+
+      let task = document.createElement('div');
+      task.className = 'task';
+      task.draggable = true;
+      task.innerText = value;
+      task.id = 'task-' + Date.now();
+
+      task.addEventListener('dragstart', drag);
+
+      document.getElementById(columnId).appendChild(task);
+      input.value = '';
+    }
+
+    function drag(event) {
+      event.dataTransfer.setData('text', event.target.id);
+    }
+
+    function allowDrop(event) {
+      event.preventDefault();
+    }
+
+    function drop(event) {
+      event.preventDefault();
+      const data = event.dataTransfer.getData('text');
+      const task = document.getElementById(data);
+
+      if (event.target.classList.contains('column')) {
+        event.target.querySelector('div').appendChild(task);
+      } else if (event.target.classList.contains('task')) {
+        event.target.parentNode.appendChild(task);
+      } else {
+        event.target.appendChild(task);
+      }
+    }
+  </script>
+
+</body>
+</html>
